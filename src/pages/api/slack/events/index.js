@@ -39,6 +39,7 @@ export default async function _handler(req, res) {
 
 // this is the handler for a netlify serverless function
 export const handler = async (req, context) => {
+    req.body = JSON.parse(req.body)
     if (req.body.type === 'pointless') {
         logger.info('pointless request')
         return { statusCode: 200, body: JSON.stringify({ success: true }), }
@@ -47,7 +48,17 @@ export const handler = async (req, context) => {
         logger.info('url_verification')
         return { statusCode: 200, body: JSON.stringify({ challenge: req.body.challenge }), }
     }
-    
+    logger.info(`--- RequestType: ${req.body.type}`)
+    handleBolt(req.body)
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify({ success: true }),
+    }
+}
+
+async function handleBolt(reqBody) {
+    logger.info('handling bolt')
     if (!isBoltUp) {
         await app.start()
         isBoltUp = true
@@ -56,13 +67,7 @@ export const handler = async (req, context) => {
     }
 
     app.processEvent({
-        body: req.body,
+        body: reqBody,
         ack: () => { },
     })
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ success: true }),
-    }
 }
-
