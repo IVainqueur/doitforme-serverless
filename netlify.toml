@@ -1,5 +1,10 @@
 targetPort=3000
 [build]
-command='yarn build'
-functions = 'src/pages/api/slack/events'
-publish = '.next'
+command="yarn build"
+functions = "src/pages/api/slack/events"
+publish = ".next"
+NODE_ENV = "18.16.0"
+
+[functions]
+node_bundler = "esbuild"
+external_node_modules=["@slack/bolt", "pine", "pine-pretty"]
