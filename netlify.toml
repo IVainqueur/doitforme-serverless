@@ -1,0 +1,5 @@
+targetPort=3000
+[build]
+command='yarn build'
+functions = 'src/pages/api/slack/events'
+publish = '.next'

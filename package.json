@@ -2,6 +2,7 @@
   "name": "doitforme-serverless",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +11,7 @@
   },
   "dependencies": {
     "@slack/bolt": "^3.13.1",
-    "next": "13.4.3",
+    "next": "^13.4.4",
     "pino": "^8.14.1",
     "pino-pretty": "^10.0.0",
     "react": "18.2.0",
