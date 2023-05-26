@@ -20,6 +20,7 @@ export default async function handler(req, res) {
         logger.info('url_verification')
         return res.status(200).json({ challenge: req.body.challenge })
     }
+    logger.info('sending 200')
     res.status(200).json({ success: true })
     if (!isBoltUp) {
         await app.start()
