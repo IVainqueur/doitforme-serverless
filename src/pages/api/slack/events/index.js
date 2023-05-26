@@ -12,6 +12,7 @@ let isBoltUp = false
 
 export default async function handler(req, res) {
     if (req.body.type === 'url_verification') {
+        console.log('[log] url_verification')
         return res.status(200).json({ challenge: req.body.challenge })
     }
     res.status(200).json({ success: true })
