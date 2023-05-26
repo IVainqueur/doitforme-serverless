@@ -1,12 +1,12 @@
 import { subtype } from '@slack/bolt'
 import { app } from './index'
+import { logger } from '@/utils/logger'
 const NIGEN_URI = process.env.NIGEN_URI
 
 
 export function setupHandlers() {
     app.message(/^(hello|hi|hey)/i, async ({ message, say }) => {
-        console.log("[LOG] I am being greated by", message.username)
-        console.log(message)
+        logger.info("I am being greated by", message.username)
         await say(`Wassup, <@${message.user}>`);
     })
 
@@ -19,7 +19,7 @@ export function setupHandlers() {
             id: user ? user.id : undefined,
             locale: user ? user.locale : undefined,
         }
-        console.log({ tz: user.tz, message_ts: message.previous_message.ts })
+        logger.info({ tz: user.tz, message_ts: message.previous_message.ts })
         const compositionDate = new Date(Number(Math.floor(message.previous_message.ts) * 1000)).toLocaleString('en-US', {
             timeZone: user.tz,
             hour: 'numeric',
@@ -49,7 +49,7 @@ export function setupHandlers() {
                 }
             ]
         })
-        console.log(screenshotURI)
+        logger.info(screenshotURI)
     })
 }
 
