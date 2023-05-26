@@ -6,13 +6,13 @@ export const app = new App({
     token: process.env.SLACK_BOT_TOKEN,
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     appToken: process.env.SLACK_APP_TOKEN,
-    port: 8080
+    port: 8080,
 })
 
 let isBoltUp = false
 
 export default async function handler(req, res) {
-    if(req.body.type === 'pointless') {
+    if (req.body.type === 'pointless') {
         logger.info('pointless')
         return res.status(200).json({ success: true })
     }

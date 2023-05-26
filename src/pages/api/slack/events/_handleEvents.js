@@ -8,16 +8,17 @@ export function setupHandlers() {
     app.message(/^(hello|hi|hey)$/i, async ({ message, say, }) => {
         logger.info("I am being greated")
         await say(`Wassup, <@${message.user}>`);
+        logger.info("replied to greating")
     })
 
     app.event('app_mention', async({ body, client, say }) => {
         logger.info("I was mentioned")
         await client.reactions.add({
-            name: 'wave',
+            name: 'v',
             channel: body.event.channel,
             timestamp: body.event.ts
         })
-
+        logger.info("replied to app_mention")
     })
 
     // Snitching on deleted messages
@@ -60,7 +61,10 @@ export function setupHandlers() {
                 }
             ]
         })
-        logger.info(screenshotURI)
+        logger.info("replied to message_deleted")
+    })
+    app.error(async (error) => {
+        logger.error(error.message)
     })
 }
 
