@@ -24,25 +24,25 @@ export default async function _handler(req, res) {
     }
     logger.info('sending 200')
     res.status(200).json({ success: true })
-    if (!isBoltUp) {
-        await app.start()
-        isBoltUp = true
-        logger.info('⚡️ Bolt app is running!')
-        setupHandlers()
-    }
-    app.processEvent({
-        body: req.body,
-        ack: () => { },
-    })
+    handleBolt(req.body)
 
 }
 
 // this is the handler for a netlify serverless function
 export const handler = async (req, context) => {
-    req.body = JSON.parse(req.body)
+    if (req.httpMethod === 'GET') {
+        logger.info('GET request')
+        return { statusCode: 200, body: JSON.stringify({ success: true }), }
+    }
+    try {
+        req.body = JSON.parse(req.body)
+    } catch (e) {
+        return { statusCode: 200, body: JSON.stringify({ success: false, error: e.message }), }
+    }
+
     if (req.body.type === 'pointless') {
         logger.info('pointless request')
-        return { statusCode: 200, body: JSON.stringify({ success: true }), }
+        return { statusCode: 200, body: JSON.stringify({ success: true, pointless: true }), }
     }
     if (req.body.type === 'url_verification') {
         logger.info('url_verification')
